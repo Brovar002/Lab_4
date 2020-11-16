@@ -1,4 +1,5 @@
-﻿#include <iostream>
+﻿
+#include <iostream>
 #include <fstream>
 #include <vector>
 #include <string>
@@ -112,7 +113,35 @@ public:
 			edge.push_back(Edge(isNodeExist(iObject), isNodeExist(jObject)));
 		}
 	};
-
+	void deleteEdge(short i, short j)
+	{
+		for (int k = 0; k < edge.size(); k++)
+		{
+			if (isEdgeExist(i, j) == true || isEdgeExist(j, i) == true)
+			{
+				edge.erase(edge.begin() + k);
+				for (int m = k; m < edge.size() - 1; m++)
+				{
+					edge[m] = edge[m + 1];
+				}
+				edge.pop_back();
+				if (edge.size() != 0)
+				{
+					edge.pop_back();
+				}
+			}
+		}
+	};
+	void deleteEdge(T iObject, T jObject)
+	{
+		for (int k = 0; k < edge.size(); k++)
+		{
+			if (isEdgeExist(iObject, jObject) != -1)
+			{
+				edge.erase(edge.begin() + k);
+			}
+		}
+	};
 
 	short nodeDegree(T _nodeObject)
 	{
@@ -344,6 +373,8 @@ int main(void)
 	{
 		cout << "1. Add node" << endl;
 		cout << "2. Add edge" << endl;
+		cout << "3. Delete node" << endl;
+		cout << "4. Delete edge" << endl;
 		cout << "5. Import from file" << endl;
 		cout << "6. Number of edges and nodes" << endl;
 		cout << "7. Show nodes" << endl;
@@ -352,6 +383,9 @@ int main(void)
 		cout << "10. Iterator for nodes" << endl;
 		cout << "11. Iterator for edges" << endl;
 		cout << "12. Is node exist" << endl;
+		cout << "13. Is edge exist" << endl;
+		cout << "14. Is container empty" << endl;
+		cout << "15. Clear" << endl;
 		cout << "0. Exit" << endl;
 		cout << "Your choise: ";
 
@@ -370,6 +404,14 @@ int main(void)
 			G->addNode(str_1);
 			break;
 		}
+		case 3:
+		{
+			cout << endl << "Enter node name: ";
+			cin >> str_1;
+			system("cls");
+			G->deleteNode(str_1);
+			break;
+		}
 		case 2:
 		{
 			cout << endl << "Enter nodes names: ";
@@ -378,7 +420,14 @@ int main(void)
 			G->addEdge(str_1, str_2);
 			break;
 		}
-		
+		case 4:
+		{
+			cout << endl << "Enter nodes names: ";
+			cin >> str_1 >> str_2;
+			system("cls");
+			G->deleteEdge(str_1, str_2);
+			break;
+		}
 		case 5:
 		{
 			cout << endl << "Enter a file name: ";
@@ -557,6 +606,36 @@ int main(void)
 					break;
 				}
 			}
+			break;
+		}
+		case 13:
+		{
+			cout << endl << "Enter a nodes names: ";
+			cin >> str_1 >> str_2;
+			if (G->isEdgeExist(str_1, str_2) != -1)
+			{
+				cout << endl << "This edge exist" << endl;
+			}
+			else
+			{
+				cout << endl << "This edge doesn't exist" << endl;
+			}
+			Sleep(1000);
+			system("cls");
+			break;
+		}
+		case 14:
+		{
+			(G->empty() == true) ? cout << endl << "Empty" << endl : cout << endl << "Not empty" << endl;
+			Sleep(1000);
+			system("cls");
+			break;
+		}
+		case 15:
+		{
+			G->clear();
+			Sleep(1000);
+			system("cls");
 			break;
 		}
 		default: break;
